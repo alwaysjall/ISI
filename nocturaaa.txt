@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hacked By ./Noctura - Broken Home</title>
+  <meta name="description" content="Noctura — sebuah karya visual tentang anak broken home dan patah hati." />
+  <style>
+    :root{
+      --bg:#050507;
+      --accent:#ff6b81;
+      --muted:#bdbdbd;
+      --glass: rgba(255,255,255,0.06);
+      --mono: "Courier New", Courier, monospace;
+    }
+
+    /* full-page background image */
+    html,body{
+      height:100%;
+      margin:0;
+      background: url("https://files.catbox.moe/305fp6.png") no-repeat center center fixed;
+      background-size: cover;
+      color:#eee;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    /* overlay keeps contrast for readability */
+    .overlay{
+      position:fixed;
+      inset:0;
+      z-index:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+      background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55));
+    }
+
+    /* central card */
+    .card{
+      width:min(980px,94%);
+      max-height:calc(100vh - 64px);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:18px;
+      padding:34px;
+      box-shadow:0 10px 40px rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px) saturate(120%);
+      border:1px solid rgba(255,255,255,0.03);
+      position:relative;
+      z-index:2;
+      overflow:auto;
+    }
+
+    .top{ display:flex; gap:18px; align-items:center; }
+
+    .logo{
+      width:120px; height:120px; border-radius:18px; overflow:hidden; flex:0 0 120px;
+      box-shadow:0 8px 30px rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.04);
+      background:linear-gradient(135deg,#111,#1a1a1a); display:flex; align-items:center; justify-content:center;
+    }
+    .logo img{ width:100%; height:100%; object-fit:contain; display:block; filter:contrast(1.05) saturate(1.05); }
+
+    .title{ flex:1; }
+    h1{ margin:0; font-size:28px; letter-spacing:1px; font-family:var(--mono); color:#fff; }
+    .subtitle{ margin-top:6px; color:var(--muted); font-size:13px; }
+
+    .content{
+      margin-top:26px;
+      display:grid;
+      grid-template-columns:1fr 360px;
+      gap:22px;
+    }
+
+    .poem{
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+      padding:20px; border-radius:12px; border:1px solid rgba(255,255,255,0.02);
+    }
+    .poem p{
+      margin:0 0 14px 0; line-height:1.6; color:#e8e8e8; font-size:16px; text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+    }
+    .poem .line{ color:var(--muted); font-size:14px; }
+
+    .side{ display:flex; flex-direction:column; gap:12px; }
+    .card-quote{
+      background:linear-gradient(90deg, rgba(255,107,129,0.06), rgba(123,97,255,0.03));
+      padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.02); color:#fff;
+    }
+    .card-quote h3{ margin:0 0 8px 0; font-size:16px; }
+    .card-quote small{ color:var(--muted); display:block; margin-top:8px; }
+
+    .footer{ margin-top:24px; display:flex; gap:12px; align-items:center; justify-content:space-between; }
+    .muted{ color:var(--muted); font-size:13px; }
+
+    .glow {
+      display:inline-block; padding:8px 14px; border-radius:999px;
+      background:linear-gradient(90deg, rgba(255,107,129,0.18), rgba(123,97,255,0.12));
+      color:white; font-weight:600; box-shadow:0 6px 30px rgba(123,97,255,0.08), 0 2px 8px rgba(255,107,129,0.06);
+      text-transform:uppercase; letter-spacing:0.8px; font-size:12px;
+    }
+
+    .underline { display:inline-block; position:relative; padding-bottom:6px; }
+    .underline:after{ content:''; position:absolute; left:0; right:0; bottom:0; height:3px; background:linear-gradient(90deg,#ff6b81,#7b61ff); border-radius:4px; transform:scaleX(0); transform-origin:left; transition:transform .45s ease; }
+    .underline:hover:after{ transform:scaleX(1); }
+
+    /* ------------------------
+       MOBILE / NARROW SCREENS
+       make the card fill the viewport,
+       hide the side column, simplify paddings
+       ------------------------ */
+    @media (max-width:880px){
+      .overlay{ padding:0; }
+      .card{
+        width:100%;
+        height:100%;
+        max-height:none;
+        border-radius:0;
+        padding:20px;
+        box-shadow:none;
+        border:none;
+        background: linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4));
+      }
+      .top{ gap:12px; align-items:flex-start; }
+      .logo{ width:88px; height:88px; flex:0 0 88px; border-radius:12px; }
+      h1{ font-size:20px; }
+      .content{ display:block; margin-top:18px; }
+      .poem{ padding:16px; border-radius:10px; }
+      .side{ display:none; } /* hide right column to maximize reading area */
+      .footer{ position:fixed; left:0; right:0; bottom:0; padding:12px 18px; background:linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.45)); border-top:1px solid rgba(255,255,255,0.03); box-sizing:border-box; }
+      .card{ padding-bottom:72px; } /* give space for fixed footer */
+      .poem p{ font-size:17px; line-height:1.7; }
+    }
+
+    /* small tweak for very small phones */
+    @media (max-width:420px){
+      .logo{ width:72px; height:72px; flex:0 0 72px; }
+      h1{ font-size:18px; }
+      .poem p{ font-size:15px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div class="card" role="main" aria-labelledby="nocturaTitle">
+      <div class="top">
+        <div class="logo" title="Noctura">
+          <!-- logo Noctura tetap dipertahankan -->
+          <img src="https://raw.githubusercontent.com/alwaysjall/myphoto/main/Nocturaa.png" alt="Logo Noctura" />
+        </div>
+
+        <div class="title">
+          <h1 id="nocturaTitle">Noctura</h1>
+          <div class="subtitle">Hacked By ./Noctura - Broken Home</div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="glow">Noctura</div>
+        </div>
+      </div>
+
+      <div class="content" aria-live="polite">
+        <div class="poem" role="article">
+          <p class="line">Aku belajar menyimpan semua hal yang tak sempat kukatakan.</p>
+          <p>Rumah yang dulu terasa hangat kini hanya bisik—pintu yang sering terkunci, suara yang kerap tak sinkron. Di sudut kamarku kutulis ulang nama-nama harapan yang perlahan pudar.</p>
+          <p>Dia pergi dengan alasan yang terdengar logis, namun hatiku tetap terluka; cinta yang kupunya bukan milik langit lagi. Aku telusuri hari demi hari, memungut serpihan yang berserak—kenangan, janji, kenapa kata yang mudah jadi rumit.</p>
+          <p class="line">Terkadang menangis bukan pilihan, tapi pelajaran tentang bagaimana tetap berdiri ketika semua runtuh.</p>
+          <p>Untuk yang pernah tumbuh di antara perdebatan dan sunyi: ketahuilah, kau tak sendiri. Luka ini tak harus menutup seluruh dunia; ada ruang kecil untuk hancur yang menumbuhkan sedikit cahaya baru.</p>
+        </div>
+
+        <aside class="side" role="complementary" aria-hidden="false">
+          <div class="card-quote">
+            <h3 class="underline">Kutipan</h3>
+            <div style="margin-top:8px;">
+              <em>"Mereka lihat senyumku. Mereka tak tahu jalan yang kujalani."</em>
+            </div>
+            <small> — Noctura</small>
+          </div>
+
+          <div class="card-quote">
+            <h3 class="underline">Pesan</h3>
+            <div style="margin-top:8px;">
+              Jangan pernah meremehkan anak yang diam. Seringkali diamnya berbahasa luka yang menunggu disembuhkan.
+            </div>
+            <small class="muted">Terkadang perlu kehancuran untuk menjadi lebih baik.</small>
+          </div>
+
+          <div class="card-quote">
+            <h3 class="underline">Terima kasih</h3>
+            <div style="margin-top:8px;">
+              Untuk setiap cerita yang tak terucap — ini adalah tempat untuk menulisnya kembali.
+            </div>
+            <small class="muted">Noctura - Broken Home</small>
+          </div>
+        </aside>
+      </div>
+
+      <div class="footer">
+        <div class="muted">© Noctura — 2025</div>
+        <div class="muted">Design: Noctura Aesthetic Developer</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
